@@ -12,5 +12,7 @@ For CP317 Project.
 
 * Shahzeb Atif
 
+* Sohum Pete 
+
 
 SmartSets is a flash-card learning platform
