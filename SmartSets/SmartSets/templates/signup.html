@@ -1,0 +1,33 @@
+{% extends 'base_layout.html' %}
+
+{% block title %} - Signup {% endblock %}
+{% block content %}
+<div class="container">
+    <div class="center-block mx-auto" style="width: 800px">
+        <div class="card mt-5">
+            <div class="card-header">
+                <h1>Signup</h1>
+              </div>
+            <div class="card-body">
+                <form method="post">
+                    {% csrf_token %}
+                    {% for field in form %}
+                    <p>
+                        {{ field.label_tag }}<br>
+                        {{ field }}
+                        <br>
+                        {% if field.help_text %}
+                        <small style="color: grey">{{ field.help_text | safe }}</small>
+                        {% endif %}
+                        {% for error in field.errors %}
+                        <p style="color: red">{{ error | safe }}</p>
+                        {% endfor %}
+                    </p>
+                    {% endfor %}
+                    <button class="btn btn-primary" type="submit">Sign up</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
