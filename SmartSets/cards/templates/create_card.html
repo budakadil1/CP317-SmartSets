@@ -1,7 +1,7 @@
 {% extends "base_layout.html" %}
 
 {%block title %}
-- Create a Set
+{{title}}
 {% endblock %}
 
 {% block content %}
@@ -9,7 +9,7 @@
     <div class="center-block mx-auto w-75">
         <div class="card mt-5">
             <div class="card-header">
-                <h1>Create a Deck</h1>
+                <h1>{{title}}</h1>
               </div>
             <div class="card-body">
                 {% for message in messages %}
@@ -40,11 +40,7 @@
                                 {% endfor %}
                             </p>
                             {% endfor %}
-                            <label for="shared_with">Share with:</label><br>
-                            <input type="text" name="shared_with" id="shared_with">
-                            <br>
-                            <br>
-                            <button class="btn btn-primary" type="submit">Create</button>
+                            <button class="btn btn-primary" type="submit">{{ title }}</button>
                         </form>
                     </div>
                 </div>

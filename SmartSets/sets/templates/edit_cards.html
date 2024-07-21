@@ -1,0 +1,27 @@
+{% extends "base_layout.html" %}
+
+{%block title %}
+- Edit Set
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="center-block mx-auto w-75">
+        <div class="card mt-5">
+            <div class="card-header">
+                <h1>Edit Cards in Deck</h1>
+                {% for card in cards %}
+                <div class="card mt-3">
+                    <div class="card-body pa-3 ms-2 text-center">
+                    <p id="change-answer-text" class="text-center">{{card.question}}</p>
+                    <h4 id="answer-{{forloop.counter}}" class="text-success">{{card.answer}}</h4>
+                    <p class="text-danger float-end"><a href="{% url 'remove_card' card.id %}" class="text-danger">Remove from Set</a></p>
+                    <p class="text-danger float-start"><a href="{% url 'edit_card' card.id %}" class="text-primary">Edit Card</a></p>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

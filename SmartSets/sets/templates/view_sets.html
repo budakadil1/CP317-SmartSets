@@ -7,13 +7,18 @@
 {% block content %}
 <div class="container">
     {% if request.get_full_path == '/sets/mysets/' and count == 0 %}
-    <h3>You don't have any sets right now, <a href="">create one here!</a></h3>
+    <h3>You don't have any sets right now, <a href="{% url 'create_set' %}">create one here!</a></h3>
     {% elif request.get_full_path == '/sets/mysets/' %}
     <a class="btn btn-warning float-end mt-2" href="{% url 'create_set' %}">Create Another Set</a>
     {% endif %}
     <h1 class="mb-3 mt-3">Decks:</h1>
     {% for set in sets %}
     <hr>
+    {% if request.get_full_path == '/sets/mysets/' %}
+    <a class="btn btn-warning float-end mt-2 ml-2" href="{% url 'edit_set' set.slug %}">Edit Set</a>
+    <a class="btn btn-warning float-end mt-2 me-2" href="{% url 'edit_cards' set.slug %}">Edit Cards</a>
+    {% endif %}
+    
     <h4><a href="{% url 'view_set' set.slug %}">{{set.name}}</a></h4>
     <p class="mb-1"> {{set.description|truncatechars:64}} </p>
     <p class="mt-0"> Cards: {{set.card_count}} </p>

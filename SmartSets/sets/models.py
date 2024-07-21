@@ -11,13 +11,13 @@ class Sets(models.Model):
     public = BooleanField() 
     shared_with = ForeignKey(User, on_delete=models.CASCADE, related_name="shared_with", blank=True, null=True)
     author = ForeignKey(User, on_delete=models.CASCADE, related_name="author")
-    slug = models.SlugField(default="", null=False)
+    slug = models.SlugField(unique=True, null=False)
     # will add decks here after
 
     def __str__(self):
         return self.name
 
     def save(self, *args, **kwargs):
-        self.s = slugify(self.name)
+        self.slug = slugify(self.name)
         super(Sets, self).save(*args, **kwargs)
 
