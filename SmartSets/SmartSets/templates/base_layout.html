@@ -1,6 +1,6 @@
 {% load static %}
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-bs-theme="dark">
   <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -12,10 +12,10 @@
 </head>
   <body>
    <!-- Image and text -->
-   <nav class="navbar navbar-expand-sm navbar-dark bg-dark sticky-top">
+   <nav class="header-nav navbar navbar-expand-sm bg-dark sticky-top shadow-sm">
     <div class="container-fluid">
       <a class="navbar-brand ms-3" href="{% url 'home' %}">
-        <img src="{% static 'smartsets.png' %}" alt="logo", class="d-inline-block align-text-top", width="30", height="30">
+        <img src="{% static 'smartsets.png' %}" alt="logo", class="d-inline-block align-text-top", width="200", height="50">
       </a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mynavbar">
         <span class="navbar-toggler-icon"></span>
@@ -25,7 +25,7 @@
           <li class="nav-item">
             {% if user.is_authenticated %}
             <button class="btn btn-dark dropdown-toggle me-2" data-bs-toggle="dropdown" aria-expanded="false">
-              Account
+              My Account
             </button>
             <ul class="dropdown-menu dropdown-menu-dark">
               <li><a class="dropdown-item" href="#">Settings</a></li>
@@ -54,7 +54,7 @@
         </ul>
         <form class="d-flex" action="{% url 'search_sets' %}" method="get">
           <input class="form-control me-2" type="text" name="q" placeholder="Search deck(s)">
-          <button class="btn btn-primary" type="submit">Search</button>
+          <button class="btn btn-outline-primary" type="submit">Search</button>
         </form>
       </div>
     </div>
@@ -62,5 +62,16 @@
   
     {% block content %}
     {% endblock %}
+    <div class="container">
+      <footer class="py-3 my-4">
+        <ul class="nav justify-content-center border-bottom pb-3 mb-3">
+          <li class="nav-item"><a href="#" class="nav-link px-2 text-muted">Browse</a></li>
+          <li class="nav-item"><a href="#" class="nav-link px-2 text-muted">My Sets</a></li>
+          <li class="nav-item"><a href="#" class="nav-link px-2 text-muted">My Account</a></li>
+        </ul>
+        <p class="text-center text-muted">© 2024 SmartSets</p>
+      </footer>
+    </div>
+    </div>
   </body>
 </html>
