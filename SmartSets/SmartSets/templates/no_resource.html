@@ -2,5 +2,8 @@
 {% block content %}
 <div class="container">
     <h3 class="my-4">This resource does not exist, please <a href="{{request.META.HTTP_REFERER}}">go back</a> or return to the <a href="{% url 'sets_home' %}">homepage</a></h3>
+    {% if custom %}
+    <h3 class="my-4">{{custom}}</h3>
+    {% endif %}
 </div>
 {% endblock %}

@@ -9,8 +9,13 @@
     <h2 class="mt-3">{{matched_set.name}}</h2>
     
     <p class="mt-1"><span class="text-primary">Author:</span> {{matched_set.author}}</p>
-    <p class="mt-1"><span class="text-primary">Shared with:</span> {{matched_set.shared_with}}</p>
-    
+    <span class="text-primary">Shared with:</span>
+    {% for shared_user in matched_set.shared_with.all %}
+      {% if not forloop.first %}
+      ,
+      {% endif %}{{shared_user}}
+    {% endfor %}
+    <br>
     <hr>
     <p>{{matched_set.description}}</p>
     {% if count == 0 %}

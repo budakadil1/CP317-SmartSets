@@ -9,6 +9,7 @@
     <div class="center-block mx-auto w-75">
         <div class="card mt-5">
             <div class="card-header">
+                <a class="btn btn-outline-success float-end mt-2" href="{% url 'add_card' slug %}">Add Card</a>
                 <h1>Edit Cards in Set</h1>
                 {% for card in cards %}
                 <div class="card mt-3">

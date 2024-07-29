@@ -56,7 +56,6 @@ def view_single_set(request, slug):
 def my_sets(request):
     try:
         query = request.user
-        print(query)
         matched_sets = Sets.objects.filter(Q(author=query) | Q(shared_with=query))
     except:
         return render(request, "no_resource.html")
@@ -72,16 +71,34 @@ def create_set(request):
         form = CreateDeckForm(request.POST)
         if form.is_valid():
             # grab shared with field
+            form.instance.author = request.user
+            form.instance.card_count = 0
             if request.POST['shared_with'] != "":
                 try:
-                    share_user = User.objects.get(username=request.POST['shared_with'])
+                    # get shared_with users delmiited by space
+                    share_users_list = request.POST['shared_with'].split(' ')
+                    share_users_objects = []
+                    print(share_users_list)
+                    for i in share_users_list:
+                        if len(i) > 2:
+                            share_user = User.objects.get(username=i)
+                            if share_user == request.user:
+                                messages.error(request, "You cannot share a set with yourself!")
+                                return render(request, 'create_set.html', {'form':form})
+
+                            share_users_objects.append(share_user)
                 except ObjectDoesNotExist:
-                    messages.error(request, "That username could not be found! Please ensure that you entered the correct username!")
+                    messages.error(request, "One of the username(s) could not be found! Please ensure that you entered the correct username!")
                     return render(request, 'create_set.html', {'form':form})
-                form.instance.shared_with = share_user
-            form.instance.card_count = 0
-            form.instance.author = request.user
-            form.save(commit=True)
+                
+                form.save()
+                try:
+                    for i in share_users_objects:
+                        form.instance.shared_with.add(i)
+                except Exception as e:
+                    print(e)
+            else:
+                form.save()
             return redirect('view_set', form.instance.slug)
 
         else:
@@ -96,7 +113,6 @@ def edit_set(request, slug):
     if slug:
             try:
                 matched_set = Sets.objects.get(slug=slug)
-                print(matched_set)
             except ObjectDoesNotExist:
                 return render(request, 'no_resource.html')
     else:
@@ -105,23 +121,49 @@ def edit_set(request, slug):
         form = CreateDeckForm(request.POST, instance=matched_set)
         if form.is_valid():
             # grab shared with field
-            if request.POST['shared_with'] != "":
-                try:
-                    share_user = User.objects.get(username=request.POST['shared_with'])
-                except ObjectDoesNotExist:
-                    messages.error(request, "That username could not be found! Please ensure that you entered the correct username!")
-                    return render(request, 'create_set.html', {'form':form})
-                form.instance.shared_with = share_user
             form.instance.author = request.user
-            form.save(commit=True)
+            form.save()
+            try:
+                # get shared_with users delmiited by space
+                share_users_list = request.POST['shared_with'].split(' ')
+                share_users_objects = []
+                print(share_users_list)
+                for i in share_users_list:
+                    if len(i) > 2:
+                        share_user = User.objects.get(username=i)
+                        if share_user == request.user:
+                            messages.error(request, "You cannot share a set with yourself!")
+                            return render(request, 'edit_set.html', {'form':form, 'set':matched_set})
+                        share_users_objects.append(share_user)
+            except ObjectDoesNotExist:
+                messages.error(request, "One of the username(s) could not be found! Please ensure that you entered the correct username!")
+                return render(request, 'edit_set.html', {'form':form, 'set':matched_set})
+            form.instance.shared_with.clear()
+            try:
+                for i in share_users_objects:
+                    form.instance.shared_with.add(i)
+            except Exception as e:
+                print(e)
             return redirect('view_set', form.instance.slug)
     else:   
-            if request.user == matched_set.author or request.user == matched_set.shared_with:
-                form = CreateDeckForm(instance=matched_set)
+            if request.user == matched_set.author:
+                form = CreateDeckForm(instance=matched_set)                
+                return render(request, 'edit_set.html', {'form':form, 'set':matched_set })
             else:
-                return render(request, 'no_resource.html')
+                return render(request, 'no_resource.html', {'custom':'You might not be the author of this set!'})
     
-    return render(request, 'edit_set.html', {'form':form})
+    return render(request, 'edit_set.html', {'form':form })
+
+@login_required
+def delete_set(request, slug):
+    if slug:
+        try:
+            matched_set = Sets.objects.get(Q(author=request.user) | Q(slug=slug))
+            matched_set.delete()
+        except Sets.DoesNotExist:
+            return render(request, 'no_resource.html')
+
+    return redirect('my_sets')
 
 @login_required
 def edit_cards(request, slug):
@@ -130,12 +172,11 @@ def edit_cards(request, slug):
                 try:
                     matched_set = Sets.objects.get(slug=slug)
                     cards = Card.objects.filter(owner_set=matched_set)
-                    context = {'cards':cards}
+                    context = {'cards':cards, 'slug':slug}
                     return render(request, 'edit_cards.html', context)
                 except ObjectDoesNotExist:
                     return render(request, 'no_resource.html')
     else:
         return render(request, 'no_resource.html')
-    
-    
-    return render(request, 'edit_set.html', {'form':form})
+
+    return render(request, 'edit_set.html', {'slug': slug})
