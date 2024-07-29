@@ -58,8 +58,7 @@
                 My Account
             </button>
             <ul class="dropdown-menu dropdown-menu-dark">
-                <li><a class="dropdown-item" href="#">Settings</a></li>
-                <li><a class="dropdown-item" href="{% url 'logout' %}">Log Out</a></li>
+              <li><a class="dropdown-item" href="{% url 'change_password' %}">Change Password</a></li>
             </ul>
           </li>
           {% else %}
@@ -91,7 +90,7 @@
           <li class="nav-item"><a href="{% url 'sets_home' %}" class="nav-link px-2 text-muted">Browse Sets</a></li>
           {% if user.is_authenticated %}
           <li class="nav-item"><a href="{% url 'my_sets' %}" class="nav-link px-2 text-muted">My Sets</a></li>
-          <li class="nav-item"><a href="#" class="nav-link px-2 text-muted">Account Settings</a></li>
+          <li class="nav-item"><a href="#" class="nav-link px-2 text-muted">Change Password</a></li>
           <li class="nav-item"><a href="{% url 'logout' %}" class="nav-link px-2 text-muted">Log Out</a></li>
           {% else %}
           <li class="nav-item"><a href="{% url 'signup' %}" class="nav-link px-2 text-muted">Sign Up</a></li>
