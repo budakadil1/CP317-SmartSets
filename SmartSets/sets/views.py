@@ -112,7 +112,6 @@ def edit_set(request, slug):
                     messages.error(request, "That username could not be found! Please ensure that you entered the correct username!")
                     return render(request, 'create_set.html', {'form':form})
                 form.instance.shared_with = share_user
-            form.instance.card_count = 0
             form.instance.author = request.user
             form.save(commit=True)
             return redirect('view_set', form.instance.slug)

@@ -18,6 +18,7 @@ from django.contrib import admin
 from django.urls import path, include
 from django.conf.urls.static import static
 from django.conf import settings
+from django.contrib.auth.views import PasswordChangeView
 from . import views
 
 urlpatterns = [
@@ -27,6 +28,7 @@ urlpatterns = [
     path('signup/', views.signup, name="signup"),
     path('login/', views.user_login, name="login"),
     path('logout/', views.user_logout, name="logout"),
-    path('cards/', include('cards.urls'))
+    path('cards/', include('cards.urls')),
+    path('change_password/', views.change_password, name="change_password")
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT) + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
