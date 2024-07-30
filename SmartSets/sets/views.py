@@ -39,7 +39,7 @@ def view_single_set(request, slug):
         if match_set.public == False:
             # check user permissions
             if request.user.is_authenticated:
-                if match_set.author != request.user and match_set.shared_with != request.user:
+                if match_set.author != request.user and match_set.shared_with.filter(username=request.user.username).exists() == False:
                     return render(request, "no_resource.html")
                 
             else:
@@ -85,8 +85,7 @@ def create_set(request):
                             if share_user == request.user:
                                 messages.error(request, "You cannot share a set with yourself!")
                                 return render(request, 'create_set.html', {'form':form})
-
-                            share_users_objects.append(share_user)
+                        share_users_objects.append(share_user)
                 except ObjectDoesNotExist:
                     messages.error(request, "One of the username(s) could not be found! Please ensure that you entered the correct username!")
                     return render(request, 'create_set.html', {'form':form})
