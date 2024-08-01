@@ -8,10 +8,11 @@ from .forms import CreateDeckForm
 from django.contrib import messages
 from django.contrib.auth.models import User
 
-# Create your views here.
+# home page
 def index(request):
     return render(request, "index.html")
 
+# page to search sets
 def search_sets(request):
     query = request.GET.get('q')
     query = "" if query == None else query
@@ -21,6 +22,7 @@ def search_sets(request):
     context = {"sets":match_sets, "count":set_count}
     return render(request, "view_sets.html", context=context)
 
+# page to browse all sets
 def view_sets(request):
     # return all sets here
     if request.path == '/sets/':
@@ -33,6 +35,7 @@ def view_sets(request):
     context = {"sets":all_sets, "count":set_count}
     return render(request, "view_sets.html", context=context)
 
+# page to view single set
 def view_single_set(request, slug):
     try:
         match_set = Sets.objects.get(slug=slug)
@@ -52,6 +55,7 @@ def view_single_set(request, slug):
     context = {"matched_set": match_set, "cards":matched_cards, "count": len(matched_cards)}
     return render(request, "view_single_set.html", context)
 
+# page to view my sets
 @login_required
 def my_sets(request):
     try:
@@ -65,6 +69,7 @@ def my_sets(request):
 
     return render(request, "view_sets.html", context=context)
 
+# page to create sets
 @login_required
 def create_set(request):
     if request.method == 'POST':
@@ -106,7 +111,7 @@ def create_set(request):
         form = CreateDeckForm()
     return render(request, 'create_set.html', {'form':form})
 
-
+# page to edit sets
 @login_required
 def edit_set(request, slug):
     if slug:
@@ -153,6 +158,7 @@ def edit_set(request, slug):
     
     return render(request, 'edit_set.html', {'form':form })
 
+# page to delete sets
 @login_required
 def delete_set(request, slug):
     if slug:
@@ -164,6 +170,7 @@ def delete_set(request, slug):
 
     return redirect('my_sets')
 
+# page to edit cards
 @login_required
 def edit_cards(request, slug):
     if slug:

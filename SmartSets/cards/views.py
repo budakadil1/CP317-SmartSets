@@ -4,8 +4,9 @@ from .forms import CreateCardForm
 from sets.models import Sets
 from django.db.models import Q, F
 from .models import Card
-# Create your views here.
 @login_required
+
+# function to add cards
 def add_card(request, slug):
     if request.method == 'POST':
         # check if user owns the current set
@@ -33,6 +34,7 @@ def add_card(request, slug):
         
     return render(request, 'create_card.html', {'form':form, 'title':'Add Card'})
 
+# function to edit cards
 def edit_card(request, slug):
     if slug:
         try:
@@ -63,6 +65,7 @@ def edit_card(request, slug):
     else:
         return render(request, "no_resource.html")
     
+# function to remove cards
 def remove_card(request, slug):
     if slug:
         try:
