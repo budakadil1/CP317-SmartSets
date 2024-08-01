@@ -40,7 +40,6 @@ INSTALLED_APPS = [
     'SmartSets',
     'sets',
     'cards',
-    'django_extensions'
 ]
 
 MIDDLEWARE = [
