@@ -37,6 +37,8 @@ def edit_card(request, slug):
     if slug:
         try:
             card = Card.objects.get(id=slug)
+            card_owner_set = card.owner_set
+            print(card_owner_set)
         except:
             return render(request, 'no_resource.html')
         if request.method == 'GET':
@@ -44,8 +46,17 @@ def edit_card(request, slug):
             return render(request, 'create_card.html', {'form':form, 'title':'Edit Card'})
         else:
             form = CreateCardForm(request.POST, instance = card)
+            print(card.owner_set.slug)
+            print(form.instance.owner_set)
+            if form.instance.owner_set.slug != card.owner_set.slug:
+                print("I was changed!!!")
             if form.is_valid():
                 form.save()
+                if form.instance.owner_set != card_owner_set:
+                    # form changed owner set so increase new owner set
+                    Sets.objects.filter(slug=form.instance.owner_set.slug).update(card_count=F("card_count")+1)
+                    Sets.objects.filter(slug=card_owner_set.slug).update(card_count=F("card_count")-1)
+
                 return redirect('edit_cards', form.instance.owner_set.slug)
             else:
                 print("WHAT THE FUCK")
