@@ -1,0 +1,37 @@
+To set up and run the project:
+
+1. Python 3.12.3 must be used. Some older versions may be fine but some dependencies may not work so please make sure 
+3.12.3 is installed.
+
+2. Make a python virtual environment by running:
+python -m venv venv
+
+3. Activate python virtual environment by:
+Windows:
+venv\Scripts\activate.bat (if using cmd) 
+venv\Scripts\activate.ps1 (if using powershell)
+Linux/Mac (bash):
+source venv/bin/activate
+
+4. Make sure all requirements are installed by running:
+pip install -r path/to/requirements.txt
+
+5. Now navigate to the SmartSets directory on your shell application by using:
+cd path/to/CP317-SmartSets/SmartSets
+
+6. Inside the SmartSets folder, run this command on shell:
+python manage.py runserver
+
+7. The server should be up and running. If any module not found error comes up please pip install that.
+You can verify the server is running by going to:
+http://127.0.0.1:8000/
+
+8. To test the application, please login using the following credentials:
+Username: dummy_user
+Password: dummy123
+
+To test the admin page, go to http://127.0.0.1:8000/admin and login with following credentials:
+Username: admin
+Password: Adil123123
+
+Have fun!

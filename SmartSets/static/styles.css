@@ -1,0 +1,77 @@
+body {
+    font-family: 'Open Sans', sans-serif;
+    font-size: 1rem;
+    line-height: 1.5;
+}
+
+  h1, h2, h3, h4, h5, h6, .navbar-brand, .nav-link, .btn {
+      font-family: 'Raleway', sans-serif;
+  }
+
+  .nav-item {
+    font-family: 'Raleway', sans-serif;
+  }
+
+  .nav-link:hover, .dropdown-toggle:hover, .dropdown-item:hover {
+    transition: color 0.15s, background-color 0.15s;
+    color: var(--bs-primary) !important; /* Bootstrap primary color */
+}
+
+.navbar{
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5) !important;
+    padding: 20px 10px 20px 0px;
+    background-color: #28a7e9;
+    transition: all ease 0.4s;
+  }
+  .navbar-brand{
+    font-size: 22px;
+    color: white !important;
+  }
+  .navbar .navbar-nav li a{
+    font-size: 16px;
+    color: white;
+  }
+
+  .card {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100%;
+}
+
+.card-body {
+    flex-grow: 1;
+}
+
+  /* Animation */
+  .animate{
+    padding: 0px 10px 0px 0px;
+    transition: all ease 0.4s;
+  }
+  
+  /* Jumbotron */
+  .jumbotron{
+    margin-top: 110px;
+  }
+
+#see-answer-text{
+  display:none;
+}
+
+.carousel-caption{
+  position:static;
+  color:white;
+}
+
+.carousel-control-next-icon, .carousel-control-prev-icon {
+  font-size:4em;
+  color:black;
+}
+
+.carousel-control-prev-icon {
+  background-image: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%23000' viewBox='0 0 8 8'%3E%3Cpath d='M5.25 0l-4 4 4 4 1.5-1.5-2.5-2.5 2.5-2.5-1.5-1.5z'/%3E%3C/svg%3E") !important;
+ }
+
+ .carousel-control-next-icon {
+  background-image: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%23000' viewBox='0 0 8 8'%3E%3Cpath d='M2.75 0l-1.5 1.5 2.5 2.5-2.5 2.5 1.5 1.5 4-4-4-4z'/%3E%3C/svg%3E") !important;
+}

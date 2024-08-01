@@ -1,0 +1,56 @@
+{% extends "base_layout.html" %}
+
+{%block title %}
+- Edit Set
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="center-block mx-auto w-75">
+        <div class="card mt-5">
+            <div class="card-header">
+                <a href="{% url 'delete_set' set.slug %}" class="float-end btn btn-outline-danger mt-2">Delete Set</a>
+                <h1>Edit Set</h1>
+            </div>
+            <div class="card-body">
+                {% for message in messages %}
+                {% if message.tags == 'error' %}
+                <!-- bootstrap alert -->
+                <div class="alert alert-danger" role="alert">
+                    <strong>{{ message }}</strong>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+                {% endif %}
+                {% endfor %}
+                <div class="row">
+                    <div class="col">
+                        <form method="post">
+                            {% csrf_token %}
+                            {% for field in form %}
+                            <p>
+                                {{ field.label_tag }}<br>
+                                {{ field }}
+                                <br>
+                                {% if field.help_text %}
+                                <small style="color: grey">{{ field.help_text | safe }}</small>
+                                {% endif %}
+                                {% for error in field.errors %}
+                                {% if field.name != 'shared_with' %}
+                                <p style="color: red">{{ error | safe }}</p>
+                                {% endif %}
+                                {% endfor %}
+                            </p>
+                            {% endfor %}
+                            <label for="shared_with">Share with (space character to separate usernames):</label><br>
+                            <input type="text" name="shared_with" id="shared_with" value="{% for shared_user in set.shared_with.all %}{{shared_user}} {% endfor %}">
+                            <br>
+                            <br>
+                            <button class="btn btn-outline-success" type="submit">Edit</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,36 @@
+{% extends "base_layout.html" %}
+
+{% block title %}
+- View Sets
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    {% if request.get_full_path == '/sets/mysets/' and count == 0 %}
+    <p class="mt-3 fs-3">You don't have any sets right now, would you like to <a href="{% url 'create_set' %}">create one</a>?</p>
+    {% elif request.get_full_path == '/sets/mysets/' %}
+    <a class="btn btn-success float-end mt-2" href="{% url 'create_set' %}">Create New Set</a>
+    {% endif %}
+    {% if request.get_full_path == '/sets/mysets/' %}
+    <h1 class="mb-3 mt-3">My Sets</h1>
+    {% elif request.get_full_path == '/sets/' %}
+    <h1 class="mb-3 mt-3">View Sets</h1>
+    {% endif %}
+    {% for set in sets %}
+    <hr>
+    {% if request.get_full_path == '/sets/mysets/' %}
+    {% if set.author == user %}
+    <a class="btn btn-outline-warning float-end mt-2 ml-2" href="{% url 'edit_set' set.slug %}">Edit Set</a>
+    {% endif %}
+    <a class="btn btn-outline-warning float-end mt-2 me-2" href="{% url 'edit_cards' set.slug %}">Edit Cards</a>
+    {% endif %}
+    
+    <p><a href="{% url 'view_set' set.slug %}">{{set.name}}</a></h4>
+    <p class="mb-1"> {{set.description|truncatechars:64}} </p>
+    <p class="mt-0"> Cards: {{set.card_count}} </p>
+    {% endfor %}
+    <hr>
+    <p>Found <span class="text-primary">{{count}}</span> set(s)</p>
+</div>
+{% endblock %}
+

@@ -1,1 +1,65 @@
-<h1>Hello</h1>
+{% extends 'base_layout.html' %}
+{% block content %}
+
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-md-12 text-center">
+            {% if user.is_authenticated %}
+                <h1>Welcome back {{user}}</h1>
+                <p class="lead">Keep up with the great studying!</p>
+
+            {% else %}
+                <h1>Welcome to SmartSets</h1>
+                <p class="lead">Your easy-to-use flashcard app for effective learning.</p>
+            {% endif %}
+            <form class="d-flex my-5" action="{% url 'search_sets' %}" method="get">
+                <input class="form-control me-2" type="text" name="q" placeholder="Search deck(s)">
+                <button class="btn btn-primary" type="submit">Search</button>
+              </form>
+        </div>
+    </div>
+
+    <div class="row my-5">
+        <div class="col-md-4">
+            <div class="card bg-dark  py-5">
+                <div class="card-body text-light">
+                    <h5 class="card-title">Browse All Sets</h5>
+                    <p class="card-text">Check out all the cards available to you.</p>
+                    <a href="{% url 'sets_home' %}" class="btn btn-outline-light">Browse Sets</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card bg-dark py-5">
+                <div class="card-body text-light">
+                    {% if user.is_authenticated %}
+                    <h5 class="card-title">Browse My Sets</h5>
+                    <p class="card-text">Browse your sets and easily manage them.</p>
+                    <a href="{% url 'my_sets' %}" class="btn btn-light">My Sets</a>
+                    {% else %}
+                    <h5 class="card-title">Create An Account</h5>
+                    <p class="card-text">Register to create your own flashcards.</p>
+                    <a href="{% url 'signup' %}" class="btn btn-light">Sign Up</a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card bg-dark py-5">
+                <div class="card-body text-light">
+                    {% if user.is_authenticated %}
+                    <h5 class="card-title">Create New Set</h5>
+                    <p class="card-text">Easily create a new flashcard set.</p>
+                    <a href="{% url 'create_set' %}" class="btn btn-outline-light">Create Set</a>
+                    {% else %}
+                    <h5 class="card-title">Access Your Cards</h5>
+                    <p class="card-text">Sign in to manage your sets.</p>
+                    <a href="{% url 'login' %}" class="btn btn-outline-light">Login</a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
